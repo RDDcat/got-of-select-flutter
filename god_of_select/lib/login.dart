@@ -68,7 +68,7 @@ class LoginState extends State<Login>{
                         // 성공적으로 데이터를 받아온 경우
                         Map<String, dynamic> result = json.decode(response.body);
                         setState(() {
-                          uuid = result.toString();
+                          uuid = result['user']['user_id'].toString();
                         });
                       } else {
                         // 데이터를 받아오지 못한 경우
