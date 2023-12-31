@@ -125,7 +125,7 @@ class MakeVoteState extends State<MakeVote>{
                     };
 
                     final response = await http.post(
-                      Uri.parse('http://127.0.0.1:8080/issue/create'),
+                      Uri.parse('${BASE_URL}issue/create'),
                       headers: <String, String>{
                         'Content-Type': 'application/json',
                       },

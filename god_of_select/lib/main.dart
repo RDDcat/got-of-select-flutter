@@ -73,7 +73,8 @@ class _FirstPageState extends State<FirstPage> {
       Map<String, dynamic> result = json.decode(response.body);
       setState(() {
         all_data = List.from(result['issues']);
-        print('response $all_data');
+        choose_data = all_data[0];
+        print('response :  $choose_data');
       });
     } else {
       // 데이터를 받아오지 못한 경우
