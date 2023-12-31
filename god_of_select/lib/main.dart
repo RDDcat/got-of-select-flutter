@@ -264,7 +264,12 @@ class _FirstPageState extends State<FirstPage> {
                               style: TextButton.styleFrom(
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MakeVote()),
+                                );
+                              },
                               child: const Text("질문하러 가기                     >", style: TextStyle( color: Colors.white, fontSize: 18))
                           )
                       )
