@@ -25,6 +25,7 @@ String uuid = "";
 String BASE_URL= "http://3.143.68.242:8080/";
 List<Map<String, dynamic>> hot_data = [];
 List<Map<String, dynamic>> all_data = [];
+Map<String, dynamic> choose_data = {}; // 선택시 보여줄 데이터
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -80,27 +81,42 @@ class _FirstPageState extends State<FirstPage> {
     }
   }
 
+  // 컴포넌트를 눌렀을 때 데이터 저장 및 페이지 이동 함수
+  void onTapComponent(Map<String, dynamic> issue) {
+    setState(() {
+      choose_data = issue;
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Vote()),
+    );
+  }
+
   // 전체 이슈 컴포넌트
   Widget buildNewIssueComponent(Map<String, dynamic> issue) {
     // 각각의 이슈에 대한 컴포넌트를 생성하는 함수
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // new 컴포넌트 단위
-        Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.fromLTRB(15, 5, 15, 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey,
-            ),
-            width: 250,
-            height: 40,
-            child: Text('Q. ${issue['title']}')
-        ),
-        // 다른 필요한 정보에 대한 Text 위젯을 추가할 수 있음
-        // 예를 들면 Content 1, Content 2의 vote_count 등
-      ],
+    return GestureDetector(
+      onTap: () => onTapComponent(issue),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // new 컴포넌트 단위
+          Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.fromLTRB(15, 5, 15, 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey,
+              ),
+              width: 250,
+              height: 40,
+              child: Text('Q. ${issue['title']}')
+          ),
+          // 다른 필요한 정보에 대한 Text 위젯을 추가할 수 있음
+          // 예를 들면 Content 1, Content 2의 vote_count 등
+        ],
+      ),
     );
   }
 
@@ -108,46 +124,49 @@ class _FirstPageState extends State<FirstPage> {
   Widget buildHotIssueComponent(Map<String, dynamic> issue) {
     // 각각의 이슈에 대한 컴포넌트를 생성하는 함수
     return
-      Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      GestureDetector(
+        onTap: () => onTapComponent(issue),
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-        // 질문 컴포넌트
-        Container(
-          margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Q. ${issue['title']}'), // 질문
-              Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.fromLTRB(15, 15, 15, 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.blueAccent,
-                  ),
-                  width: 250,
-                  height: 30,
-                  child: Text('${issue['content_1']['title']}')
-              ),
-              Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.fromLTRB(15, 5, 15, 15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.pinkAccent,
-                  ),
-                  width: 250,
-                  height: 30,
-                  child: Text('${issue['content_2']['title']}')
-              ),
-            ],
+          // 질문 컴포넌트
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Q. ${issue['title']}'), // 질문
+                Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.fromLTRB(15, 15, 15, 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blueAccent,
+                    ),
+                    width: 250,
+                    height: 30,
+                    child: Text('${issue['content_1']['title']}')
+                ),
+                Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.fromLTRB(15, 5, 15, 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.pinkAccent,
+                    ),
+                    width: 250,
+                    height: 30,
+                    child: Text('${issue['content_2']['title']}')
+                ),
+              ],
+            ),
           ),
-        ),
-        // 다른 필요한 정보에 대한 Text 위젯을 추가할 수 있음
-        // Text('${issue['all_vote_count']}'),
-      ],
-    );
+          // 다른 필요한 정보에 대한 Text 위젯을 추가할 수 있음
+          // Text('${issue['all_vote_count']}'),
+        ],
+            ),
+      );
   }
 
   @override

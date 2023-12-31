@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'main.dart';
 
@@ -13,10 +15,33 @@ class Vote extends StatefulWidget {
 
 class VoteState extends State<Vote>{
   // 변수 선언
-  String title = "이 어플은 쓸만한가요?";
-  String content1 = "문득 세삼 ...";
-  String content2 = "네...?";
-  int allVoteCount = 0;
+  String title = choose_data['title'];
+  String content1 = choose_data['content_1']['title'];
+  String content2 = choose_data['content_2']['title'];
+  int allVoteCount = choose_data['all_vote_count'];
+
+  // 함수 추가
+  Future<void> sendVote(String contentId) async {
+    print('투표함');
+    final response = await http.post(
+      Uri.parse('${BASE_URL}issue/vote'), // 실제 엔드포인트로 변경
+      body: jsonEncode({
+        'user_id': uuid,
+        'issue_id': choose_data['id'],
+        'content_id': contentId,
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      // 성공적으로 투표가 이루어진 경우
+      // 다음 질문 데이터를 가져와서 셋팅하는 등의 로직을 추가할 수 있습니다.
+      print('success');
+    } else {
+      // 투표 요청이 실패한 경우
+      print('Failed to send vote');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +73,9 @@ class VoteState extends State<Vote>{
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: (){
+                        onPressed: () async {
                           // axios 요청으로 데이터 저장 후 다음 질문 데이터 가져와서 셋팅
+                          await sendVote(choose_data['content_1']['id']); // content_1_uuid 대신 실제 컨텐트 아이디로 변경
                         },
                         child: Text(content1,
                             style: TextStyle( color: Colors.white, fontSize: 20)
@@ -70,8 +96,8 @@ class VoteState extends State<Vote>{
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: (){
-                          // axios 요청으로 데이터 저장 후 다음 질문 데이터 가져와서 셋팅
+                        onPressed: () async {
+                          await sendVote(choose_data['content_2']['id']); // content_2_uuid 대신 실제 컨텐트 아이디로 변경
                         },
                         child: Text(content2,
                             style: TextStyle( color: Colors.white, fontSize: 20)
@@ -83,7 +109,7 @@ class VoteState extends State<Vote>{
               Container(
                   margin:  EdgeInsets.fromLTRB(0, 0, 25, 20),
                   alignment: Alignment.centerRight,
-                  child: Text("${allVoteCount}명 투표함" ,
+                  child: Text("$allVoteCount명 투표함" ,
                       style: TextStyle( color: Colors.grey, fontSize: 14)
                   )
               ), // 하단 정보
