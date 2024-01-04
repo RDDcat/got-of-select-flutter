@@ -1,16 +1,23 @@
 # god_of_select
 
-A new Flutter project.
+god_of_select의 플러터 프로젝트입니다. 상단에 넓은범위의 설명이 있습니다. 
 
-## Getting Started
+## 개요
 
-This project is a starting point for a Flutter application.
+플러터를 처음으로 공부하는 프로젝트입니다. 
 
-A few resources to get you started if this is your first Flutter project:
+미숙한점이 너무 많습니다. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 구조소개
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+login.dart : MyApp 실행시 처음으로 진입하는 시점입니다. 이름을 입력시 바로 랜덤토큰이 발행되며 서비스를 이용할 수 있습니다.
+
+main.dart : MyApp이 정의되어있는 페이지입니다. 메인페이지의 코드또한 포함하며 다른페이지에 정보를 넘겨주기위해 전역변수로 정의한 데이터들이 있습니다. 
+
+make_vote.dart : 투표를 만들수있는 페이지입니다.
+
+vote.dart : 질문지를 보고 투표를 할 수 있는 페이지입니다. 투표 선택시 다음 질문이 나오면서 서버에 정보가 기록됩니다.
+
+rest_api_sample.dart : api 요청을 처음해봐서 동작을 확인하기 위해 테스트로 작성한 페이지입니다.
+
+object.dart : 플러터는 Json을 사용하는 방식이 독특합니다. 방식에 맞추어 미리 Class를 정의하기 위해 만들어둔 파일이었으나 사용하지 않습니다. 지금은 인터넷에서 긁어온 class가 하나 들어가 있습니다.
